@@ -1,6 +1,6 @@
 # Testes automatizados com Cypress - Intermediário
 
-Este repositório foi criado para aprimorar o conhecimento sobre Cypress, acompanhando o curso do intrutor Walmyr. Os principais módulos abordados são:
+Este repositório foi criado para aprimorar o conhecimento sobre Cypress, acompanhando o curso do instrutor Walmyr. Os principais módulos abordados são:
 
 - Como criar testes automatizados de interface gráfica de usuário
 - Como criar testes automatizados de API (com _feedback_ visual no navegador)
