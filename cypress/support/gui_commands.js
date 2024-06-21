@@ -1,17 +1,36 @@
 Cypress.Commands.add('login', (
-    user = Cypress.env('user_name'),
-    password = Cypress.env('user_password'),
-  ) => {
-    const login = () => {
-      cy.visit('/users/sign_in')
+  user = Cypress.env('user_name'),
+  password = Cypress.env('user_password'),
+  { cacheSession = true } = {},
+) => {
+  // funcao que realiza o login via GUI
+  const login = () => {
+    cy.visit('/users/sign_in')
 
-      cy.get("[data-qa-selector='login_field']").type(user)
-      cy.get("[data-qa-selector='password_field']").type(password, { log: false }) // password nao vaze no log de comandos
-      cy.get("[data-qa-selector='sign_in_button']").click()
-    }
+    cy.get("[data-qa-selector='login_field']").type(user)
+    cy.get("[data-qa-selector='password_field']").type(password, { log: false })
+    cy.get("[data-qa-selector='sign_in_button']").click()
+  }
 
-    login()
-  })
+  // analisa se tem uma sessao valida
+  const validate = () => {
+    cy.visit('/')
+    cy.location('pathname', { timeout: 5000 })
+      .should('not.eq', '/users/sign_in')
+  }
+
+  const options = {
+    cacheAcrossSpecs: true, // compartilha a sessao entre as specs
+    validate
+  }
+
+  if (cacheSession) {
+    // se ja tem uma sessao criada, apenas restora. Se nao, cria via GUI pela chamada de login
+    cy.session(user, login, options) 
+  } else {
+    login() // chama a funcao para o realizar via GUI o login, necessario para o teste do proprio login
+  }
+})
 
 Cypress.Commands.add('logout', () => {
   const logout = () => {
