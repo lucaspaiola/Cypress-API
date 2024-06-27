@@ -1,6 +1,12 @@
 import { faker } from '@faker-js/faker' 
 
-describe('Testando criação de um projeto', () => {
+const options = {
+  env: { 
+    snapshotOnly: true 
+  }
+}
+
+describe('Testando criação de um projeto', options, () => {
   beforeEach(() => {
     cy.api_deleteProjects()
     cy.login()
